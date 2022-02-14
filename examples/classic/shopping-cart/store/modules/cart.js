@@ -10,6 +10,7 @@ const state = () => ({
 
 // getters
 const getters = {
+  // 当前购物车中的商品
   cartProducts: (state, getters, rootState) => {
     return state.items.map(({ id, quantity }) => {
       const product = rootState.products.all.find(product => product.id === id)
@@ -21,7 +22,7 @@ const getters = {
       }
     })
   },
-
+  // 计算当前购物车中的商品的总额
   cartTotalPrice: (state, getters) => {
     return getters.cartProducts.reduce((total, product) => {
       return total + product.price * product.quantity
@@ -31,6 +32,7 @@ const getters = {
 
 // actions
 const actions = {
+  // 结算
   async checkout ({ commit, state }, products) {
     const savedCartItems = [...state.items]
     commit('setCheckoutStatus', null)
@@ -46,7 +48,7 @@ const actions = {
       commit('setCartItems', { items: savedCartItems })
     }
   },
-
+  // 添加商品
   addProductToCart ({ state, commit }, product) {
     commit('setCheckoutStatus', null)
     if (product.inventory > 0) {
@@ -64,22 +66,23 @@ const actions = {
 
 // mutations
 const mutations = {
+  // 该商品首次添加
   pushProductToCart (state, { id }) {
     state.items.push({
       id,
       quantity: 1
     })
   },
-
+  // 该商品多次添加
   incrementItemQuantity (state, { id }) {
     const cartItem = state.items.find(item => item.id === id)
     cartItem.quantity++
   },
-
+  // 设置购物车中的商品
   setCartItems (state, { items }) {
     state.items = items
   },
-
+  // 设置当前购物车中的状态
   setCheckoutStatus (state, status) {
     state.checkoutStatus = status
   }

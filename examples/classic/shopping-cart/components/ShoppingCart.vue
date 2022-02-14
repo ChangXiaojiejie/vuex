@@ -17,13 +17,16 @@
 
 <script>
 import { mapGetters, mapState } from 'vuex'
-import { currency } from '../currency'
+import { currency } from '../currency'  // 格式化数字
 
 export default {
+  // 计算属性的方法，从store中的getters中获取
   computed: {
+    // 当前购物车的状态
     ...mapState({
       checkoutStatus: state => state.cart.checkoutStatus
     }),
+    // 当前购物车中的商品以及总价
     ...mapGetters('cart', {
       products: 'cartProducts',
       total: 'cartTotalPrice'
