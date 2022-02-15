@@ -33,7 +33,7 @@
         {{ pluralize(remaining, 'item') }} left
       </span>
       <ul class="filters">
-        <li v-for="(val, key) in filters">
+        <li v-for="(val, key) in filters" :key="key">
           <a :href="'#/' + key"
             :class="{ selected: visibility === key }"
             @click="visibility = key">{{ capitalize(key) }}</a>
@@ -85,6 +85,7 @@ export default {
       'toggleAll',
       'clearCompleted'
     ]),
+    // 添加todo
     addTodo (e) {
       const text = e.target.value
       if (text.trim()) {
@@ -92,9 +93,11 @@ export default {
       }
       e.target.value = ''
     },
+    // 转化单词
     pluralize (n, w) {
       return n === 1 ? w : (w + 's')
     },
+    // 转化格式，首字母大写
     capitalize (s) {
       return s.charAt(0).toUpperCase() + s.slice(1)
     }
